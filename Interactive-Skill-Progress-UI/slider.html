@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>نمایش درصد</title>
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    /* اینجا استایل هایی اضافه می‌کنید که در بالا تعریف شده است */
+    /* ... */
+
+    svg {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      z-index: 1000;
+    }
+
+    svg circle.bg {
+      stroke: #191919;
+    }
+
+    svg circle.progress {
+      stroke-dasharray: 0; /* دقت کنید که این مقدار باید با محیط دایره همخوانی داشته باشد */
+      stroke-dashoffset: 0;
+      transition: stroke-dashoffset 0.5s ease-in-out;
+    }
+
+    .card:nth-child(1) svg circle.progress {
+      stroke: #00ff43;
+    }
+    .card:nth-child(2) svg circle.progress {
+      stroke: #00a1ff;
+    }
+    .card:nth-child(3) svg circle.progress {
+      stroke: #ff04f7;
+    }
+    
+
+
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- بقیه کدهای صفحه -->
+    <div class="card">
+        <div class="box">
+          <div class="percent">
+            <svg>
+              <circle class="bg" cx="70" cy="70" r="70"></circle>
+              <circle class="progress" cx="70" cy="70" r="70"></circle>
+            </svg>
+            <div class="number">
+              <h2><span id="demo1">50</span>%</h2>
+            </div>
+          </div>
+          <h2 class="text">HTML</h2>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange1">
+          </div>
+        </div>
+      </div>
+      <!-- بلوک دوم -->
+      <div class="card">
+        <div class="box">
+          <div class="percent">
+            <svg>
+              <circle class="bg" cx="70" cy="70" r="70"></circle>
+              <circle class="progress" cx="70" cy="70" r="70"></circle>
+            </svg>
+            <div class="number">
+              <h2><span id="demo2">50</span>%</h2>
+            </div>
+          </div>
+          <h2 class="text">CSS</h2>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange2">
+          </div>
+        </div>
+      </div>
+      <!-- بلوک سوم -->
+      <div class="card">
+        <div class="box">
+          <div class="percent">
+            <svg>
+              <circle class="bg" cx="70" cy="70" r="70"></circle>
+              <circle class="progress" cx="70" cy="70" r="70"></circle>
+            </svg>
+            <div class="number">
+              <h2><span id="demo3">50</span>%</h2>
+            </div>
+          </div>
+          <h2 class="text">JavaScript</h2>
+          <div class="slidecontainer">
+            <input type="range" min="1" max="100" value="50" class="slider" id="myRange3">
+          </div>
+        </div>
+      </div>
+  </div>
+
+  <script>
+    var sliders = document.querySelectorAll(".slider");
+    var demos = document.querySelectorAll(".number > h2 > span");
+    var progressCircles = document.querySelectorAll("svg .progress");
+
+    for (var i = 0; i < sliders.length; i++) {
+      sliders[i].addEventListener('input', function() {
+        var index = this.id[this.id.length - 1] - 1;
+        var circle = progressCircles[index];
+        var percent = this.value / 100;
+        var circumference = 2 * Math.PI * circle.r.baseVal.value; // استفاده از r.baseVal.value برای دریافت شعاع
+        var offset = circumference - (percent * circumference); // محاسبه افست بر اساس درصد
+
+        demos[index].textContent = this.value;
+        circle.style.strokeDasharray = circumference;
+        circle.style.strokeDashoffset = offset; // اعمال افست به stroke-dashoffset
+      });
+    }
+  </script>
+</body>
+</html>
